@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Professional Web Page with Fixed Navigation</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.8;
+      color: #333;
+      background-color: #fff;
+    }
+
+    /* Navigation styles */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      z-index: 999;
+    }
+
+    nav.scrolled {
+      background-color: #222;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: white;
+      color: black;
+    }
+
+    /* Section spacing */
+    .content {
+      padding-top: 100px; /* space for fixed nav */
+      max-width: 900px;
+      margin: auto;
+    }
+
+    section {
+      padding: 4rem 2rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
+
+    section p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    section:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="content">
+    <section id="home">
+      <h2>Welcome to Our Website</h2>
+      <p>We’re glad you stopped by. Our company is committed to delivering innovative and practical solutions that help businesses thrive in a digital world. Our team is made up of experienced professionals dedicated to quality, integrity, and excellence.</p>
+      <p>Whether you're a startup looking to establish your presence or an enterprise seeking to modernize your operations, we’re here to partner with you every step of the way. Take a look around and see what we can offer you.</p>
+    </section>
+
+    <section id="about">
+      <h2>About Us</h2>
+      <p>Founded in 2010, our organization began with a vision to simplify technology for businesses. Over the years, we’ve grown from a small group of enthusiasts to a full-fledged digital agency serving clients worldwide.</p>
+      <p>Our approach is grounded in collaboration, transparency, and a deep understanding of the latest technologies. We believe in building long-term relationships with our clients by consistently delivering value and measurable results.</p>
+      <p>Each project we undertake is handled with care, from the initial planning phase to the final delivery. We pride ourselves on being agile, creative, and forward-thinking.</p>
+    </section>
+
+    <section id="services">
+      <h2>Our Services</h2>
+      <p>We offer a comprehensive suite of services designed to meet your business needs. Our core services include:</p>
+      <p><strong>Web Development:</strong> Modern, responsive websites tailored to your brand and audience.</p>
+      <p><strong>Mobile App Development:</strong> iOS and Android apps built for performance and user experience.</p>
+      <p><strong>UI/UX Design:</strong> Engaging and intuitive interfaces that enhance user satisfaction.</p>
+      <p><strong>Digital Marketing:</strong> SEO, social media, and paid advertising strategies that drive traffic and conversions.</p>
+      <p><strong>IT Consulting:</strong> Strategic advice to help you align technology with your business goals.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <p>If you’d like to learn more about how we can help your business grow, don’t hesitate to reach out. We’d love to hear from you and explore how we can collaborate.</p>
+      <p><strong>Email:</strong> contact@example.com</p>
+      <p><strong>Phone:</strong> (123) 456-7890</p>
+      <p><strong>Location:</strong> 123 Business Lane, Innovation City, Country</p>
+    </section>
+  </div>
+
+  <!-- Scroll effect JavaScript -->
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
+
+</body>
+</html>
