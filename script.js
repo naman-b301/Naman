@@ -1,77 +1,65 @@
-let board = ["", "", "", "", "", "", "", "", ""];
-let currentPlayer = "X";
-let gameActive = false;
-let vsComputer = false;
+let listsContainer = document.getElementById('lists');
 
-const winningConditions = [
-  [0,1,2], [3,4,5], [6,7,8],
-  [0,3,6], [1,4,7], [2,5,8],
-  [0,4,8], [2,4,6]
-];
+function createList() {
+  const listName = document.getElementById('new-list').value.trim();
+  if (!listName) return alert("List name required.");
 
-const statusDisplay = document.getElementById('status');
-const gameBoard = document.getElementById('game-board');
+  const listDiv = document.createElement('div');
+  listDiv.className = 'todo-list';
 
-function setMode(mode) {
-  vsComputer = (mode === 'computer');
-  resetGame();
-  gameActive = true;
-  statusDisplay.textContent = `Current Player: ${currentPlayer}`;
-  renderBoard();
+  listDiv.innerHTML = `
+    <h2>${listName}</h2>
+    <div class="tasks"></div>
+    <input type="text" placeholder="New task..." class="task-input" />
+    <input type="datetime-local" class="task-datetime" />
+    <button onclick="addTask(this)">Add Task</button>
+  `;
+
+  listsContainer.appendChild(listDiv);
+  document.getElementById('new-list').value = '';
 }
 
-function renderBoard() {
-  gameBoard.innerHTML = "";
-  board.forEach((cell, index) => {
-    const cellElement = document.createElement('div');
-    cellElement.classList.add('cell');
-    cellElement.textContent = cell;
-    cellElement.addEventListener('click', () => handleCellClick(index));
-    gameBoard.appendChild(cellElement);
-  });
+function addTask(button) {
+  const listDiv = button.parentElement;
+  const input = listDiv.querySelector('.task-input');
+  const datetimeInput = listDiv.querySelector('.task-datetime');
+  const tasksContainer = listDiv.querySelector('.tasks');
+
+  const taskText = input.value.trim();
+  const taskTime = datetimeInput.value;
+
+  if (!taskText) return alert("Task can't be empty");
+
+  const taskDiv = document.createElement('div');
+  taskDiv.className = 'task';
+
+  taskDiv.innerHTML = `
+    <input type="checkbox" onchange="toggleComplete(this)" />
+    <span>${taskText}</span>
+    ${taskTime ? `<small>(${new Date(taskTime).toLocaleString()})</small>` : ''}
+    <button onclick="editTask(this)">Edit</button>
+    <button onclick="deleteTask(this)">Delete</button>
+  `;
+
+  tasksContainer.appendChild(taskDiv);
+  input.value = '';
+  datetimeInput.value = '';
 }
 
-function handleCellClick(index) {
-  if (!gameActive || board[index] !== "") return;
-
-  board[index] = currentPlayer;
-  renderBoard();
-
-  if (checkWinner()) {
-    statusDisplay.textContent = `Player ${currentPlayer} wins!`;
-    gameActive = false;
-    return;
-  } else if (!board.includes("")) {
-    statusDisplay.textContent = "It's a draw!";
-    gameActive = false;
-    return;
-  }
-
-  currentPlayer = currentPlayer === "X" ? "O" : "X";
-  statusDisplay.textContent = `Current Player: ${currentPlayer}`;
-
-  if (vsComputer && currentPlayer === "O") {
-    setTimeout(computerMove, 500);
-  }
+function toggleComplete(checkbox) {
+  const task = checkbox.parentElement;
+  task.classList.toggle('completed', checkbox.checked);
 }
 
-function computerMove() {
-  let emptyIndices = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
-  let randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-  handleCellClick(randomIndex);
+function editTask(button) {
+  const taskDiv = button.parentElement;
+  const span = taskDiv.querySelector('span');
+  const currentText = span.textContent;
+  const newText = prompt("Edit task:", currentText);
+  if (newText !== null) span.textContent = newText;
 }
 
-function checkWinner() {
-  return winningConditions.some(combination => {
-    const [a, b, c] = combination;
-    return board[a] && board[a] === board[b] && board[a] === board[c];
-  });
-}
-
-function resetGame() {
-  board = ["", "", "", "", "", "", "", "", ""];
-  currentPlayer = "X";
-  gameActive = true;
-  statusDisplay.textContent = `Current Player: ${currentPlayer}`;
-  renderBoard();
+function deleteTask(button) {
+  const taskDiv = button.parentElement;
+  taskDiv.remove();
 }
